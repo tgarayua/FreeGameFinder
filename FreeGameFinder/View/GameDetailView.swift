@@ -14,60 +14,74 @@ struct GameDetailView: View {
     
     
     var body: some View {
-        VStack(spacing: 20) {
-            AsyncImage(url: URL(string: game.thumbnail))
-            
-            Spacer()
-            
-            VStack(alignment: .leading, spacing: 20) {
-                
-                Text(game.shortDescription)
+        GeometryReader {_ in
+            ScrollView {
+                VStack(alignment: .center, spacing: 20) {
+                    AsyncImage(url: URL(string: game.thumbnail))
+                        .opacity(isShowing ? 1.0 : 0.0)
+                        .padding(.top, 25)
+                    
+                    
+                    Text(game.shortDescription)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding()
+                        .opacity(isShowing ? 1.0 : 0.0)
+                    
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("Genre:")
+                            .font(.headline)
+                            .opacity(isShowing ? 1.0 : 0.0)
+                        Text(game.genre)
+                            .font(.subheadline)
+                            .opacity(isShowing ? 1.0 : 0.0)
+                        
+                        Text("Platform:")
+                            .font(.headline)
+                            .opacity(isShowing ? 1.0 : 0.0)
+                        Text(game.platform)
+                            .font(.subheadline)
+                            .opacity(isShowing ? 1.0 : 0.0)
+                        
+                        Text("Publisher:")
+                            .font(.headline)
+                            .opacity(isShowing ? 1.0 : 0.0)
+                        Text(game.publisher)
+                            .font(.subheadline)
+                            .opacity(isShowing ? 1.0 : 0.0)
+                        
+                        Text("Developer:")
+                            .font(.headline)
+                            .opacity(isShowing ? 1.0 : 0.0)
+                        Text(game.developer)
+                            .font(.subheadline)
+                            .opacity(isShowing ? 1.0 : 0.0)
+                        
+                        Link("FreeToGame Detail Link", destination: URL(string: game.freetogameProfileUrl)!)
+                            .font(.headline)
+                            .opacity(isShowing ? 1.0 : 0.0)
+                        
+                        Link("Download \(game.title) Now!", destination: URL(string: game.gameUrl)!)
+                            .font(.headline)
+                            .opacity(isShowing ? 1.0 : 0.0)
+                    }
+                    .padding(.all)
+                    .background(Color.gray)
+                    .cornerRadius(15)
+                    .shadow(radius: 15)
+                    .ignoresSafeArea(edges: .all)
                     .opacity(isShowing ? 1.0 : 0.0)
-                
-                Text("Genre:")
-                    .font(.subheadline)
-                    .opacity(isShowing ? 1.0 : 0.0)
-                Text(game.genre)
-                    .font(.headline)
-                    .opacity(isShowing ? 1.0 : 0.0)
-                
-                Text("Platform:")
-                    .font(.subheadline)
-                    .opacity(isShowing ? 1.0 : 0.0)
-                Text(game.platform)
-                    .font(.headline)
-                    .opacity(isShowing ? 1.0 : 0.0)
-                
-                Text("Publisher:")
-                    .font(.subheadline)
-                    .opacity(isShowing ? 1.0 : 0.0)
-                Text(game.publisher)
-                    .font(.headline)
-                    .opacity(isShowing ? 1.0 : 0.0)
-                
-                Text("Developer:")
-                    .font(.subheadline)
-                    .opacity(isShowing ? 1.0 : 0.0)
-                Text(game.developer)
-                    .font(.headline)
-                    .opacity(isShowing ? 1.0 : 0.0)
+                    
+                }
+                Spacer()
             }
-            .padding(.all)
-            .background(Color.white)
-            .cornerRadius(15)
-            .shadow(radius: 15)
-            .navigationTitle(game.title)
-            .ignoresSafeArea(edges: .all)
-            .opacity(isShowing ? 1.0 : 0.0)
-            
-            Spacer()
         }
+        .navigationTitle(game.title)
         .onAppear {
             withAnimation(.easeIn(duration: 1)) {
                 isShowing = true
             }
         }
-        .padding(.all)
+        .background(ignoresSafeAreaEdges: .bottom)
     }
 }
 

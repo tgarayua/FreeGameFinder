@@ -16,21 +16,26 @@ struct GameListView: View {
                 if viewModel.games.isEmpty {
                     ProgressView("Loading Games...")
                 } else {
-                    List(viewModel.games, id: \.id) { game in
-                        NavigationLink(destination: GameDetailView(game: game)) {
-                            Text(game.title)
+                    VStack {
+                        SearchBar(text: $viewModel.searchQuary)
+                        
+                        List(viewModel.filteredGames, id: \.id) { game in
+                            NavigationLink(destination: GameDetailView(game: game)) {
+                                
+                                GameTileView(game: game)
+                                    .padding()
+                                
+                            }
                         }
+                        .padding(.top, -7)
                     }
-                    .padding(.top, -7)
                 }
             }
             .navigationTitle("Free Game Finder")
-            .ignoresSafeArea(edges: .bottom)
             .onAppear {
                 viewModel.fetchGames()
             }
         }
-        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
